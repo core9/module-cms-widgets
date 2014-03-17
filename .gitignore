@@ -1,0 +1,11 @@
+/build
+/bin
+.gradle
+.settings
+build
+bin
+.project
+.classpath
+*~
+jspf.cache
+/node_modules
