@@ -1,69 +1,81 @@
-<div class="page-header">
-  <h1>PageModels {{model.name}}<small><i class="icon-double-angle-right"></i> manage your page models</small></h1>
+<h1 class="page-header">PageModels {{model.name}}<small><i class="icon-double-angle-right"></i> manage your page models</small></h1>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Name</label>  
+  <div class="col-md-8">
+    <input ng-model="pagemodel.name" type="text" class="form-control input-md" />
+    <span class="help-block">A unique name for the pagemodel</span>
+  </div>
 </div>
-<div>
-	<div class="input-group">
-		<span class="input-group-addon">Name</span>
-		<input type="text" class="form-control" ng-model="pagemodel.name" />
-	</div>
-	<div class="input-group">
-		<span class="input-group-addon">Template name</span>
-		<input type="text" class="form-control" ng-model="pagemodel.templateName" />
-	</div>
-	<div class="input-group">
-		<span class="input-group-addon">Path</span>
-		<input type="text" class="form-control" ng-model="pagemodel.path" />
-	</div>
-	<fieldset>
-		<legend>Components</legend>
-		<div ng-repeat="component in pagemodel.components track by $index">
-			<div class="input-group">
-				<span class="input-group-addon">Widget</span>
-				<button type="button" class="form-control btn btn-default dropdown-toggle">{{component.name}}</button>
-				<ul class="dropdown-menu selectbox">
-					<li ng-repeat="(component, options) in widgets"><a ng-click="pagemodel.components[$parent.$index].name = component">{{component}}</a></li>
-				</ul>
-				<span class="input-group-btn">
-					<button class="btn btn-warning" ng-click="edit = !edit"><i class="fa fa-pencil"></i> Settings</button>
-					<button class="btn btn-danger" ng-click="removeComponent($index)"><i class="fa fa-trash-o"></i> Remove</button>
-				</span>
-			</div>
-			<div class="input-group" ng-if="edit">
-				<span class="input-group-addon">Settings</span>
-				<div class="form-control">
-					<fieldset>
-						<legend>Widget settings</legend>
-						<p>If your widget has options, you can set them here</p>
-					</fieldset>
-					<fieldset ng-if="widgets[component.name].options !== null">
-						<legend>Globals</legend>
-						<div class="input-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
-							<span class="input-group-addon">{{key}}</span>
-							<input type="text" class="form-control" ng-model="component.globals[key]" />
-						</div>
-						<div ng-repeat="bundle in widgets[component.name].options.components">
-							<div class="input-group" ng-repeat="(key, value) in bundle.globals" ng-if="value.substr(0,1) === ':'">
-								<span class="input-group-addon">{{value.substr(1)}}</span>
-								<input type="text" class="form-control" ng-model="component.globals[value.substr(1)]" />
-							</div>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-		</div>
-		<div class="input-group">
-			<span class="input-group-addon">Add component</span>
-			<button type="button" class="form-control btn btn-default dropdown-toggle">{{newComponent.name}}</button>
-			<ul class="dropdown-menu selectbox">
-				<li ng-repeat="(component, options) in widgets"><a ng-click="newComponent.name = component">{{component}}</a></li>
-			</ul>
-			<span class="input-group-btn">
-				<button class="btn btn-success" ng-click="addComponent()">Add</button>
-			</span>
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>Actions</legend>
-		<button class="btn btn-success" ng-click="save()">Save</button>
-	</fieldset>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Template name</label>  
+  <div class="col-md-8">
+    <input ng-model="pagemodel.templateName" type="text" class="form-control input-md" />
+    <span class="help-block">A unique name for the template</span>
+  </div>
+</div>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Path</label>  
+  <div class="col-md-8">
+    <input ng-model="pagemodel.path" type="text" class="form-control input-md" />
+    <span class="help-block">The path under which the pagemodel will be visible</span>
+  </div>
+</div>
+
+<fieldset>
+	<legend>Components</legend>
+  <div ng-repeat="component in pagemodel.components track by $index" class="form-group row">
+    <label class="col-md-2 control-label">Widget</label>  
+    <div class="col-md-8 input-group">
+      <button type="button" class="form-control btn btn-default dropdown-toggle">{{component.name}}</button>
+      <ul class="dropdown-menu selectbox">
+        <li ng-repeat="(component, options) in widgets"><a ng-click="pagemodel.components[$parent.$index].name = component">{{component}}</a></li>
+      </ul>
+      <span class="input-group-btn">
+        <button class="btn btn-warning" ng-click="edit = !edit"><i class="fa fa-pencil"></i> Settings</button>
+        <button class="btn btn-danger" ng-click="removeComponent($index)"><i class="fa fa-trash-o"></i> Remove</button>
+      </span>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2 input-group" ng-if="edit">
+      <fieldset>
+        <legend>Widget settings</legend>
+        <blockquote>If your widget has options, you can set them here</blockquote>
+        <fieldset ng-if="widgets[component.name].options !== null">
+          <legend>Globals</legend>
+          <div class="form-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
+            <label class="col-md-2 control-label">{{key}}</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control input-md" ng-model="component.globals[key]" />
+            </div>
+          </div>
+          <div ng-repeat="bundle in widgets[component.name].options.components">
+            <div class="form-group" ng-repeat="(key, value) in bundle.globals" ng-if="value.substr(0,1) === ':'">
+              <label class="col-md-2 control-label">{{value.substr(1)}}</label>  
+              <div class="col-md-8">
+                <input type="text" class="form-control input-md" ng-model="component.globals[value.substr(1)]" />
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 control-label">Add component</label>
+    <div class="col-md-8 input-group">
+      <button type="button" class="form-control btn btn-default dropdown-toggle">{{newComponent.name}}</button>
+      <ul class="dropdown-menu selectbox">
+        <li ng-repeat="(component, options) in widgets"><a ng-click="newComponent.name = component">{{component}}</a></li>
+      </ul>
+      <span class="input-group-btn">
+        <button class="btn btn-success" ng-click="addComponent()">Add</button>
+      </span>
+    </div>
+  </div>
+</fieldset>
+<fieldset>
+  <legend>Actions</legend>
+  <button class="btn btn-success" ng-click="save()">Save</button>
+</fieldset>
 </div>

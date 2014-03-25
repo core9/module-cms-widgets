@@ -1,30 +1,29 @@
-<div class="page-header">
-  <h1>PageModels<small><i class="icon-double-angle-right"></i> manage your page models</small></h1>
-</div>
-<div>
-	<p>A pagemodel is a collection of components. The collection is visible on a specific path (with optional params).</p>
-	<button class="btn btn-success" ng-click="refresh()">Refresh all pagemodels</button>
-<div>
-	<div>
-		<fieldset>
-			<legend>Pagemodels</legend>
-			<table>
-				<tr>
-					<th>Name</th>
-					<th>Actions</th>
-				</tr>
-				<tr ng-repeat="pagemodel in pagemodels">
-					<td>{{pagemodel.name}}</td>
-					<td>
-						<button class="btn btn-success" ng-click="edit(pagemodel)"><i class="fa fa-pencil"></i></button>
-						<button class="btn btn-danger" ng-click="remove(pagemodel)"><i class="fa fa-trash-o"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td><input type="text" placeholder="name" ng-model="newName" /></td>
-					<td><button class="btn btn-success" ng-click="add(newName)"><i class="icon-plus"></i> New pagemodel</button></td>
-				</tr>
-			</table>
-		</fieldset>
-	</div>
-</div>
+<h1 class="page-header">PageModels<small><i class="icon-double-angle-right"></i> manage your page models</small></h1>
+<blockquote>A pagemodel is a collection of components. The collection is visible on a specific path (with optional params).</blockquote>
+<button class="btn btn-success" ng-click="refresh()">Refresh all pagemodels</button>
+<fieldset>
+	<legend>Pagemodels</legend>
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Actions</th>
+		</tr>
+		<tr ng-repeat="pagemodel in pagemodels">
+			<td>{{pagemodel.name}}</td>
+			<td>
+				<button class="btn btn-success" ng-click="edit(pagemodel)"><i class="fa fa-pencil"></i></button>
+				<button class="btn btn-danger" ng-click="remove(pagemodel)"><i class="fa fa-trash-o"></i></button>
+			</td>
+		</tr>
+    <tr>
+      <td>
+        <div class="form-group">
+          <input ng-model="newName" type="text" placeholder="New pagemodel name" class="form-control input-md">
+        </div>
+      </td>
+      <td>
+        <button class="btn btn-success" ng-click="add(newName)"><i class="fa fa-plus"></i> New pagemodel</button>
+      </td>
+    </tr>
+	</table>
+</fieldset>

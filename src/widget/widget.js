@@ -15,7 +15,10 @@ angular.module( 'core9Dashboard.widget', [
         templateUrl: 'widget/widgetlist.tpl.html'
       }
     },
-    data:{ pageTitle: 'Widgets' }
+    data:{
+      pageTitle: 'Widgets',
+      sidebar: 'config'
+    }
 	})
 	.state('widgetsitem', {
     url: '/config/widgets/:id',
@@ -25,7 +28,10 @@ angular.module( 'core9Dashboard.widget', [
         templateUrl: 'widget/widget.tpl.html'
       }
     },
-    data:{ pageTitle: 'Widget' }
+    data:{
+      pageTitle: 'Widgets',
+      sidebar: 'config'
+    }
   });
 })
 .factory('DataHandlers', function($q, $http) {
@@ -159,6 +165,6 @@ angular.module( 'core9Dashboard.widget', [
 })
 
 .run(function(MenuService) {
-	MenuService.add('config', {title: "Widgets", weight: 200, link: "/config/widgets"});
+	MenuService.add('config', {title: "Widgets", weight: 200, link: "widgets"});
 })
 ;

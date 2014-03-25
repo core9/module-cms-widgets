@@ -13,7 +13,10 @@ angular.module( 'core9Dashboard.pagemodel', [
         templateUrl: 'pagemodel/pagemodels.tpl.html'
       }
     },
-    data:{ pageTitle: 'PageModels' }
+    data:{ 
+      pageTitle: 'PageModels',
+      sidebar: 'config'
+    }
 	})
 	.state('pagemodel', {
     url: '/config/pagemodels/:id',
@@ -23,7 +26,10 @@ angular.module( 'core9Dashboard.pagemodel', [
         controller: 'PageModelsModelCtrl'
       }
     },
-    data:{ pageTitle: 'PageModels' }
+    data:{ 
+      pageTitle: 'PageModels',
+      sidebar: 'config'
+    }
   });
 })
 
@@ -92,6 +98,6 @@ angular.module( 'core9Dashboard.pagemodel', [
 })
 
 .run(function(MenuService) {
-	MenuService.add('config', {title: "PageModels", weight: 150, link: "/config/pagemodels"});
+	MenuService.add('config', {title: "PageModels", weight: 150, link: "pagemodels"});
 })
 ;

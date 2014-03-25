@@ -1,90 +1,111 @@
-<div class="page-header">
-	<h1>Widget {{widget.name}}<small><i class="icon-double-angle-right"></i> manage your widgets</small></h1>
+<h1 class="page-header">Widget {{widget.name}}<small><i class="icon-double-angle-right"></i> manage your widgets</small></h1>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Name</label>  
+  <div class="col-md-8">
+    <input ng-model="widget.name" type="text" class="form-control input-md" />
+    <span class="help-block">A unique name for the widget</span>
+  </div>
 </div>
-<div>
-	<div class="input-group">
-		<span class="input-group-addon">Name</span>
-		<input type="text" class="form-control" ng-model="widget.name" />
+<div class="form-group row">
+  <label class="col-md-2 control-label">Template name</label>  
+  <div class="col-md-8">
+    <input ng-model="widget.templateName" type="text" class="form-control input-md" />
+    <span class="help-block">The entry template for the widget</span>
+  </div>
+</div>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Template</label>  
+  <div class="col-md-8">
+    <div ui-codemirror="editorOptions" name="template" ng-model="widget.template">{{widget.template}}</div>
+  </div>
+</div>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Editor options</label>  
+  <div class="col-md-8">
+    <button type="button" class="btn btn-success" ng-click="editorOptions.fullScreen = true">Fullscreen</button>
+  </div>
+</div>
+
+<fieldset ng-if="widget.type !== 'collection'">
+	<legend>Datahandler</legend>
+  <div class="form-group row">
+    <label class="col-md-2 control-label">Datahandler</label>  
+    <div class="col-md-8">
+      <button type="button" class="btn btn-default form-control dropdown-toggle">{{widget.handler}}<span class="caret"></span></button>
+      <ul class="dropdown-menu selectbox">
+        <li ng-repeat="handler in datahandlers"><a ng-click="widget.handler = handler">{{handler}}</a></li>
+      </ul>
+    </div>
+  </div>
+
+	<div ng-if="schema !== undefined && widget.handler !== 'Bundle'" >
+		<div cn-schema-generator cn-schema="schema" cn-options="schemaOptions" cn-data="widget.handleroptions" />
 	</div>
-	<fieldset>
-		<legend>Template</legend>
-		<div class="input-group">
-			<span class="input-group-addon">Template name</span>
-			<input type="text" class="form-control" ng-model="widget.templateName" />
-		</div>
-		<div class="input-group">
-			<span class="input-group-addon">Template</span>
-			<div class="form-control" style="padding: 0 4px 0 0;">
-				<div ui-codemirror="editorOptions" name="template" ng-model="widget.template">{{widget.template}}</div>
-			</div>
-		</div>
-		<div class="input-group">
-			<span class="input-group-addon">Editor options</span>
-			<div class="form-control">
-				<button type="button" class="btn btn-success" ng-click="editorOptions.fullScreen = true">Fullscreen</button>
+
+  <fieldset ng-if="widget.handler === 'Bundle'">
+		<legend>Components</legend>
+		<div ng-repeat="component in widget.handleroptions.components track by $index">
+      <div class="form-group row">
+        <label class="col-md-2 control-label">Widget</label>  
+        <div class="col-md-8">
+          <div class="input-group">
+            <button type="button" class="form-control btn btn-default dropdown-toggle">{{component.name}}</button>
+            <ul class="dropdown-menu selectbox">
+              <li ng-repeat="(component, options) in widgets"><a ng-click="widget.handleroptions.[$parent.$index] = component">{{component}}</a></li>
+            </ul>
+            <span class="input-group-btn">
+              <button class="btn btn-warning" ng-click="edit = !edit"><i class="fa fa-pencil"></i> Settings</button>
+              <button class="btn btn-danger" ng-click="removeComponent($index)"><i class="fa fa-trash-o"></i> Remove</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8 col-md-offset-2 input-group" ng-if="edit">
+        <fieldset>
+          <legend>Widget settings</legend>
+          <blockquote>If your widget has options, you can set them here</blockquote>
+          <fieldset ng-if="widgets[component.name].options !== null">
+            <legend>Globals</legend>
+            <div class="form-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
+              <label class="col-md-2 control-label">{{key}}</label>
+              <div class="col-md-8">
+                <input type="text" class="form-control input-md" ng-model="component.globals[key]" />
+              </div>
+            </div>
+            <div ng-repeat="bundle in widgets[component.name].options.components">
+              <div class="form-group" ng-repeat="(key, value) in bundle.globals" ng-if="value.substr(0,1) === ':'">
+                <label class="col-md-2 control-label">{{value.substr(1)}}</label>  
+                <div class="col-md-8">
+                  <input type="text" class="form-control input-md" ng-model="component.globals[value.substr(1)]" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2 input-group">
+      <div class="row">
+        <label class="col-md-3 control-label">Add component</label>
+        <div class="col-md-9">
+          <div class="input-group">
+  				  <button type="button" class="form-control btn btn-default dropdown-toggle">{{newComponent.name}}</button>
+    				<ul class="dropdown-menu selectbox">
+    					<li ng-repeat="(component, options) in widgets"><a ng-click="newComponent.name = component">{{component}}</a></li>
+    				</ul>
+    				<span class="input-group-btn">
+    					<button class="btn btn-success" ng-click="addComponent()">Add</button>
+    				</span>
+          </div>
+        </div>
 			</div>
 		</div>
 	</fieldset>
-	<fieldset ng-if="widget.type !== 'collection'">
-		<legend>Datahandler</legend>
-		<div class="input-group">
-			<span class="input-group-addon">Datahandler</span>
-			<button type="button" class="btn btn-default form-control dropdown-toggle">{{widget.handler}}<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu selectbox">
-				<li ng-repeat="handler in datahandlers"><a ng-click="widget.handler = handler">{{handler}}</a></li>
-			</ul>
-		</div>
-		<div ng-if="schema !== undefined && widget.handler !== 'Bundle'" >
-			<div cn-schema-generator cn-schema="schema" cn-options="schemaOptions" cn-data="widget.handleroptions" />
-		</div>
-		<fieldset ng-if="widget.handler === 'Bundle'">
-			<legend>Components</legend>
-			<div ng-repeat="component in widget.handleroptions.components track by $index">
-				<div class="input-group">
-					<span class="input-group-addon">Widget</span>
-					<button type="button" class="form-control btn btn-default dropdown-toggle">{{component.name}}</button>
-					<ul class="dropdown-menu selectbox">
-						<li ng-repeat="(component, options) in widgets"><a ng-click="widget.handleroptions.[$parent.$index] = component">{{component}}</a></li>
-					</ul>
-					<span class="input-group-btn">
-						<button class="btn btn-warning" ng-click="edit = !edit"><i class="fa fa-pencil"></i> Settings</button>
-						<button class="btn btn-danger" ng-click="removeComponent($index)"><i class="fa fa-trash-o"></i> Remove</button>
-					</span>
-				</div>
-				<div class="input-group" ng-if="edit">
-					<span class="input-group-addon">Settings</span>
-					<div class="form-control">
-						<fieldset>
-							<legend>Widget settings</legend>
-							<p>If your widget has options, you can set them here</p>
-						</fieldset>
-						<div class="input-group">
-							<span class="input-group-addon">ID</span>
-							<input type="text" class="form-control" ng-model="component.id" />
-						</div>
-						<fieldset ng-if="widgets[component.name].options !== null">
-						<legend>Globals</legend>
-						<div class="input-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
-							<span class="input-group-addon">{{key}}</span>
-							<input type="text" class="form-control" ng-model="component.globals[key]" />
-						</div>
-					</fieldset>
-					</div>
-				</div>
-			</div>
-			<div class="input-group">
-				<span class="input-group-addon">Add component</span>
-				<button type="button" class="form-control btn btn-default dropdown-toggle">{{newComponent.name}}</button>
-				<ul class="dropdown-menu selectbox">
-					<li ng-repeat="(component, options) in widgets"><a ng-click="newComponent.name = component">{{component}}</a></li>
-				</ul>
-				<span class="input-group-btn">
-					<button class="btn btn-success" ng-click="addComponent()">Add</button>
-				</span>
-			</div>
-		</fieldset>
-	</fieldset>
+</fieldset>
+
+
 	<fieldset>
 		<legend>Actions</legend>
 		<button class="btn btn-success" ng-click="save()">Save</button>

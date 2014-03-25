@@ -1,31 +1,29 @@
-<div class="page-header">
-	<h1>Widgets<small><i class="icon-double-angle-right"></i> manage your widgets</small></h1>
-</div>
-<div>
-	<p>A widget is a reusable component of the website</p>
-	<button class="btn btn-success" ng-click="refresh()">Refresh all widgets</button>
-</div>
-<div>
-	<div>
-		<fieldset>
-			<legend>Widgets</legend>
-			<table>
-				<tr>
-					<th>Name</th>
-					<th>Actions</th>
-				</tr>
-				<tr ng-repeat="widget in widgets">
-					<td>{{widget.name}}</td>
-					<td>
-						<button class="btn btn-success" ng-click="edit(widget)"><i class="fa fa-pencil"></i></button>
-						<button class="btn btn-danger" ng-click="remove(widget)"><i class="fa fa-trash-o"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td><input type="text" placeholder="name" ng-model="newName" /></td>
-					<td><button class="btn btn-success" ng-click="add(newName)"><i class="icon-plus"></i> New widget</button></td>
-				</tr>
-			</table>
-		</fieldset>
-	</div>
-</div>
+<h1 class="page-header">Widgets<small><i class="icon-double-angle-right"></i> manage your widgets</small></h1>
+<blockquote>A widget is a reusable component of the website</blockquote>
+<button class="btn btn-success" ng-click="refresh()">Refresh all widgets</button>
+<fieldset>
+  <legend>Widgets</legend>
+  <table class="table table-striped">
+    <tr>
+     <th>Name</th>
+     <th>Actions</th>
+   </tr>
+   <tr ng-repeat="widget in widgets">
+     <td>{{widget.name}}</td>
+     <td>
+      <button class="btn btn-success" ng-click="edit(widget)"><i class="fa fa-pencil"></i></button>
+      <button class="btn btn-danger" ng-click="remove(widget)"><i class="fa fa-trash-o"></i></button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="form-group">
+        <input ng-model="newName" type="text" placeholder="New widget name" class="form-control input-md">
+      </div>
+    </td>
+    <td>
+      <button class="btn btn-success" ng-click="add(newName)"><i class="fa fa-plus"></i> New pagemodel</button>
+    </td>
+  </tr>
+</table>
+</fieldset>
