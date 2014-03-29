@@ -17,7 +17,8 @@ angular.module( 'core9Dashboard.widget', [
     },
     data:{
       pageTitle: 'Widgets',
-      sidebar: 'config'
+      sidebar: 'config',
+      context: 'widgets'
     }
 	})
 	.state('widgetsitem', {
@@ -30,7 +31,8 @@ angular.module( 'core9Dashboard.widget', [
     },
     data:{
       pageTitle: 'Widgets',
-      sidebar: 'config'
+      sidebar: 'config',
+      context: 'widgets'
     }
   });
 })
@@ -166,5 +168,7 @@ angular.module( 'core9Dashboard.widget', [
 
 .run(function(MenuService) {
 	MenuService.add('config', {title: "Widgets", weight: 200, link: "widgets"});
+  MenuService.add('widgets', {title: "Refresh", weight: 0, 
+    template: "<a href=\"\" ng-controller=\"ConfigWidgetListCtrl\" ng-click=\"refresh()\">Refresh widgets</a>"});
 })
 ;

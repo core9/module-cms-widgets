@@ -15,7 +15,8 @@ angular.module( 'core9Dashboard.pagemodel', [
     },
     data:{ 
       pageTitle: 'PageModels',
-      sidebar: 'config'
+      sidebar: 'config',
+      context: 'pagemodels'
     }
 	})
 	.state('pagemodel', {
@@ -28,7 +29,8 @@ angular.module( 'core9Dashboard.pagemodel', [
     },
     data:{ 
       pageTitle: 'PageModels',
-      sidebar: 'config'
+      sidebar: 'config',
+      context: 'pagemodels'
     }
   });
 })
@@ -99,5 +101,7 @@ angular.module( 'core9Dashboard.pagemodel', [
 
 .run(function(MenuService) {
 	MenuService.add('config', {title: "PageModels", weight: 150, link: "pagemodels"});
+  MenuService.add('pagemodels', {title: "Refresh", weight: 0, 
+    template: "<a href=\"\" ng-controller=\"PageModelsCtrl\" ng-click=\"refresh()\">Refresh pagemodels</a>"});
 })
 ;
