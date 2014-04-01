@@ -97,6 +97,20 @@ angular.module( 'core9Dashboard.pagemodel', [
 	$scope.removeComponent = function(index) {
 		$scope.pagemodel.components.splice(index, 1);
 	};
+
+  $scope.addPermission = function(permission) {
+    if($scope.pagemodel.permissions === undefined) {
+      $scope.pagemodel.permissions = [];
+    }
+    $scope.pagemodel.permissions.push(permission);
+  };
+
+  $scope.addRole = function(role) {
+    if($scope.pagemodel.roles === undefined) {
+      $scope.pagemodel.roles = [];
+    }
+    $scope.pagemodel.roles.push(role);
+  };
 })
 
 .run(function(MenuService) {

@@ -20,6 +20,46 @@
     <span class="help-block">The path under which the pagemodel will be visible</span>
   </div>
 </div>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Permissions</label>  
+  <div class="col-md-8">
+    <table class="table table-striped">
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+      <tr ng-repeat="permission in pagemodel.permissions">
+        <td>{{permission}}</td>
+        <td><button class="btn btn-danger" ng-click="pagemodel.permissions.splice($index, 1)"><i class="fa fa-trash-o"></i></button></td>
+      </tr>
+      <tr>
+        <td><input ng-model="newPermission" type="text" class="form-control input-md" /></td>
+        <td><button class="btn btn-success" ng-click="addPermission(newPermission)"><i class="fa fa-plus"></i></button></td>
+      </tr>
+    </table>
+    <span class="help-block">The permissions which are allowed to view this page.</span>
+  </div>
+</div>
+<div class="form-group row">
+  <label class="col-md-2 control-label">Roles</label>  
+  <div class="col-md-8">
+    <table class="table table-striped">
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+      <tr ng-repeat="role in pagemodel.roles">
+        <td>{{role}}</td>
+        <td><button class="btn btn-danger" ng-click="pagemodel.roles.splice($index, 1)"><i class="fa fa-trash-o"></i></button></td>
+      </tr>
+      <tr>
+        <td><input ng-model="newRole" type="text" class="form-control input-md" /></td>
+        <td><button class="btn btn-success" ng-click="addRole(newRole)"><i class="fa fa-plus"></i></button></td>
+      </tr>
+    </table>
+    <span class="help-block">The roles which are allowed to view this page.</span>
+  </div>
+</div>
 
 <fieldset>
 	<legend>Components</legend>
