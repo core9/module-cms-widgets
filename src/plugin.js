@@ -5,3 +5,4 @@ angular.module( 'core9Dashboard.widgets', [
   ])
 
 ;
+angular.module('core9Dashboard.admin.dashboard').requires.push('core9Dashboard.widgets');

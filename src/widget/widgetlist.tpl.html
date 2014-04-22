@@ -4,25 +4,37 @@
   <legend>Widgets</legend>
   <table class="table table-striped">
     <tr>
-     <th>Name</th>
-     <th>Actions</th>
-   </tr>
-   <tr ng-repeat="widget in widgets">
-     <td>{{widget.name}}</td>
-     <td>
-      <button class="btn btn-success" ng-click="edit(widget)"><i class="fa fa-pencil"></i></button>
-      <button class="btn btn-danger" ng-click="remove(widget)"><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <div class="form-group">
-        <input ng-model="newName" type="text" placeholder="New widget name" class="form-control input-md">
-      </div>
-    </td>
-    <td>
-      <button class="btn btn-success" ng-click="add(newName)"><i class="fa fa-plus"></i> New widget</button>
-    </td>
-  </tr>
-</table>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+    <tr ng-if="widgetFolder !== ''">
+      <td><a ng-click="switchTo('..')"><i class="fa fa-folder-o"></i> ..</a></td>
+      <td>
+        <button class="btn btn-success" ng-click="switchTo('..')"><i class="fa fa-folder-open-o"></i></button>
+      </td>
+    </tr>
+    <tr ng-repeat="(folder, widgets) in widgetList.folders">
+      <td><a ng-click="switchTo(folder)"><i class="fa fa-folder-o"></i> {{folder}}</a></td>
+      <td>
+        <button class="btn btn-success" ng-click="switchTo(folder)"><i class="fa fa-folder-open-o"></i></button>
+      </td>
+    </tr>
+    <tr ng-repeat="widget in widgetList.widgets">
+      <td>{{widget.name}}</td>
+      <td>
+        <button class="btn btn-success" ng-click="edit(widget)"><i class="fa fa-pencil"></i></button>
+        <button class="btn btn-danger" ng-click="remove(widget)"><i class="fa fa-trash-o"></i></button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="form-group">
+          <input ng-model="newName" type="text" placeholder="New widget name" class="form-control input-md">
+        </div>
+      </td>
+      <td>
+        <button class="btn btn-success" ng-click="add(newName)"><i class="fa fa-plus"></i> New widget</button>
+      </td>
+    </tr>
+  </table>
 </fieldset>

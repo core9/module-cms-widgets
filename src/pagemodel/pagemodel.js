@@ -36,11 +36,66 @@ angular.module( 'core9Dashboard.pagemodel', [
 })
 
 .controller('PageModelsCtrl', function($scope, $http, $state, ConfigFactory) {
-  $scope.pagemodels = ConfigFactory.query({configtype: 'pagemodel'});
+  $scope.pagemodelsFolder = '';
+
+  function putPageModelInFolder(pagemodel, target) {
+    var folderIndex = pagemodel.name.indexOf('/');
+    if(folderIndex === -1) {
+      if(target.pagemodels === undefined) {
+        target.pagemodels = [];
+      }
+      target.pagemodels.push(pagemodel);
+    } else {
+      if(target.folders === undefined) {
+        target.folders = {};
+      }
+      var folderName = '/' + pagemodel.name.substring(0, folderIndex);
+      if(target.folders[folderName] === undefined) {
+        target.folders[folderName] = {};
+      }
+      pagemodel.name = pagemodel.name.substring(folderIndex + 1);
+      putPageModelInFolder(pagemodel, target.folders[folderName]);
+    }
+  }
+
+  $scope.handlePageModelsData = function (data) {
+    $scope.pagemodels = [];
+    var l = data.length;
+    for(var n = 0; n < l; n++) {
+      putPageModelInFolder(data[n], $scope.pagemodels);
+    }
+    $scope.pagemodelList = $scope.pagemodels;
+  };
+
+  $scope.switchTo = function (folder) {
+    if(folder === '..') {
+      $scope.pagemodelsFolder = $scope.pagemodelsFolder.substring(0, $scope.pagemodelsFolder.lastIndexOf('/'));
+    } else {
+      $scope.pagemodelsFolder += folder;
+    }
+    if($scope.pagemodelsFolder === '') {
+      $scope.pagemodelList = $scope.pagemodels;
+    } else {
+      var folders = $scope.pagemodelsFolder.split('/');
+      for (var n = 0; n < folders.length; n++) {
+        if(folders[n] === '') {
+          $scope.pagemodelList = $scope.pagemodels;
+        } else {
+          $scope.pagemodelList = $scope.pagemodelList.folders['/' + folders[n]];
+        }
+      }
+    }
+  };
+
+  ConfigFactory.query({configtype: 'pagemodel'}, $scope.handlePageModelsData);
 
   $scope.add = function(newName) {
     var model = new ConfigFactory({configtype: 'pagemodel'});
-    model.name = newName;
+    if($scope.pagemodelsFolder === '' || $scope.pagemodelsFolder === '/') {
+      model.name = newName;
+    } else {
+      model.name = $scope.pagemodelsFolder.substring(1) + '/' + newName;
+    }
     model.$save(function(data) {
       $scope.pagemodels.push(data);
       $state.go("pagemodel", {id: data._id});
@@ -62,13 +117,19 @@ angular.module( 'core9Dashboard.pagemodel', [
 
   $scope.remove = function(pagemodel) {
     pagemodel.$remove(function(data) {
-      $scope.pagemodels = ConfigFactory.query({configtype: 'pagemodel'});
+      ConfigFactory.query({configtype: 'pagemodel'}, $scope.handlePageModelsData);
     });
   };
 })
 
 .controller('PageModelsModelCtrl', function($scope, $http, ConfigFactory, $stateParams) {
   $scope.pagemodel = ConfigFactory.get({configtype: 'pagemodel', id: $stateParams.id});
+
+  $scope.$watch('pagemodel.name', function(newVal, oldVal) {
+    if($scope.pagemodel.templateName === undefined || $scope.pagemodel.templateName === oldVal) {
+      $scope.pagemodel.templateName = $scope.pagemodel.name;
+    }
+  });
   
   $http.get('/admin/widget')
     .success(function(data) {

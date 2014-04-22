@@ -7,7 +7,19 @@
 			<th>Name</th>
 			<th>Actions</th>
 		</tr>
-		<tr ng-repeat="pagemodel in pagemodels">
+    <tr ng-if="pagemodelsFolder !== ''">
+      <td><a ng-click="switchTo('..')"><i class="fa fa-folder-o"></i> ..</a></td>
+      <td>
+        <button class="btn btn-success" ng-click="switchTo('..')"><i class="fa fa-folder-open-o"></i></button>
+      </td>
+    </tr>
+    <tr ng-repeat="(folder, widgets) in pagemodelList.folders">
+      <td><a ng-click="switchTo(folder)"><i class="fa fa-folder-o"></i> {{folder}}</a></td>
+      <td>
+        <button class="btn btn-success" ng-click="switchTo(folder)"><i class="fa fa-folder-open-o"></i></button>
+      </td>
+    </tr>
+		<tr ng-repeat="pagemodel in pagemodelList.pagemodels">
 			<td>{{pagemodel.name}}</td>
 			<td>
 				<button class="btn btn-success" ng-click="edit(pagemodel)"><i class="fa fa-pencil"></i></button>
