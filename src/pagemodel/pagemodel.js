@@ -118,6 +118,7 @@ angular.module( 'core9Dashboard.pagemodel', [
   $scope.remove = function(pagemodel) {
     pagemodel.$remove(function(data) {
       ConfigFactory.query({configtype: 'pagemodel'}, $scope.handlePageModelsData);
+      $scope.refresh();
     });
   };
 })

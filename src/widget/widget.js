@@ -154,6 +154,7 @@ angular.module( 'core9Dashboard.widget', [
   $scope.remove = function(widget) {
     widget.$remove(function(data) {
       ConfigFactory.query({configtype: 'widget'}, $scope.handleWidgetData);
+      $scope.refresh();
     });
   };
 })
