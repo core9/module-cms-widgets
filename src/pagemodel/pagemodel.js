@@ -135,7 +135,7 @@ angular.module( 'core9Dashboard.pagemodel', [
   $http.get('/admin/widget')
     .success(function(data) {
       $scope.widgets = data;
-      $scope.newComponent = {name: $scope.widgets[0], globals: {}};
+      $scope.newComponent = {id: '', name: "Select a new widget", globals: {}};
     });
 
 	$scope.save = function() {
