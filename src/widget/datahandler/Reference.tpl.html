@@ -1,0 +1,50 @@
+<div ng-controller="WidgetContentController">
+  <div ng-controller="ReferenceContentController">
+    <fieldset>
+      <legend>Content selection</legend>
+      <p class="lead">Enter the field (and value) for the query of the content. You can use a Global value, which means the value will be set at a higher level (e.g. pagemodel or widgetbundel). </p>
+      <h4>Params:</h4>
+      <dl>
+        <dt>content</dt>
+        <dd>the content which is referenced</dd>
+        <dt>contents</dt>
+        <dd>the referencing content</dd>
+        <dt>pager</dt>
+        <dd>a pager which will paginate your referencing items</dd>
+      </dl>
+      <div class="form-group row">
+        <label class="col-md-2 control-label">Referenced ContentType</label>
+        <div class="col-md-8">
+          <select ng-options="contenttype as contenttype.name for contenttype in contenttypes" ng-model="contenttype" class="form-control input-md"></select>
+          <span class="help">The content type which is referenced from the other content.</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-2 control-label">Referencing ContentType</label>
+        <div class="col-md-8">
+          <select ng-options="contenttype as contenttype.name for contenttype in contenttypes" ng-model="referencing" class="form-control input-md"></select>
+          <span class="help">The content type which is referencing to the content specified above.</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-2 control-label">Referencing field</label>
+        <div class="col-md-8">
+          <select ng-options="key as key for (key,field) in referencing.schema.properties" ng-model="widget.handleroptions.field" class="form-control input-md">
+            <option value="">Database ID</option>
+          </select>
+          <span class="help">The field which is referencing to the content type specified.</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-2 control-label">Value</label>
+        <div class="col-md-8">
+          <div class="input-group">
+            <span class="input-group-addon"><input type="checkbox" ng-model="widget.handleroptions.id.global" /> Global</span>
+            <input type="text" ng-disabled="widget.handleroptions.id.global" class="form-control" ng-model="widget.handleroptions.id.value" />
+          </div>
+          <span class="help">The value which should be used.</span>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>

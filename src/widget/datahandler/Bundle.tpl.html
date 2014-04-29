@@ -1,0 +1,69 @@
+<fieldset ng-controller="WidgetBundleController">
+    <legend>Components</legend>
+    <div ng-repeat="component in widget.handleroptions.components track by $index">
+      <div class="form-group row">
+        <label class="col-md-2 control-label">Widget</label>  
+        <div class="col-md-8">
+          <div class="input-group">
+            <button type="button" class="form-control btn btn-default dropdown-toggle">{{component.name}}</button>
+            <ul class="dropdown-menu selectbox">
+              <li ng-repeat="(id, component) in widgets"><a ng-click="widget.handleroptions.components[$parent.$index].id = id; widget.handleroptions.components[$parent.$index].name = component.name">{{component.name}}</a></li>
+            </ul>
+            <span class="input-group-btn">
+              <button class="btn btn-warning" ng-click="edit = !edit"><i class="fa fa-pencil"></i> Settings</button>
+              <button class="btn btn-danger" ng-click="removeComponent($index)"><i class="fa fa-trash-o"></i> Remove</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8 col-md-offset-2 input-group" ng-if="edit">
+        <fieldset>
+          <legend>Widget settings</legend>
+          <blockquote>If your widget has options, you can set them here</blockquote>
+          <div class="row">
+            <label class="col-md-3 control-label">Name</label>
+              <div class="col-md-9">
+              <div class="input-group">
+                <input type="text" class="form-control input-md" ng-model="component.name" />
+              </div>
+            </div>
+          </div>
+          <fieldset ng-if="widgets[component.name].options !== null">
+            <legend>Globals</legend>
+            <div class="form-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
+              <label class="col-md-2 control-label">{{key}}</label>
+              <div class="col-md-8">
+                <input type="text" class="form-control input-md" ng-model="component.globals[key]" />
+              </div>
+            </div>
+            <div ng-repeat="bundle in widgets[component.name].options.components">
+              <div class="form-group" ng-repeat="(key, value) in bundle.globals" ng-if="value.substr(0,1) === ':'">
+                <label class="col-md-2 control-label">{{value.substr(1)}}</label>  
+                <div class="col-md-8">
+                  <input type="text" class="form-control input-md" ng-model="component.globals[value.substr(1)]" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2 input-group">
+      <div class="row">
+        <label class="col-md-3 control-label">Add component</label>
+        <div class="col-md-9">
+          <div class="input-group">
+            <button type="button" class="form-control btn btn-default dropdown-toggle">{{newComponent.name}}</button>
+            <ul class="dropdown-menu selectbox">
+             <li ng-repeat="(id, component) in widgets"><a ng-click="newComponent.id = id; newComponent.name = component.name">{{component.name}}</a></li>
+           </ul>
+           <span class="input-group-btn">
+             <button class="btn btn-success" ng-click="addComponent()">Add</button>
+           </span>
+         </div>
+       </div>
+     </div>
+   </div>
+ </fieldset>

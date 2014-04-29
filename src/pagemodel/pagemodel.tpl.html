@@ -68,7 +68,7 @@
     <div class="col-md-8 input-group">
       <button type="button" class="form-control btn btn-default dropdown-toggle">{{component.name}}</button>
       <ul class="dropdown-menu selectbox">
-        <li ng-repeat="(id, component) in widgets"><a ng-click="pagemodel.components[$parent.$index].name = component.name; pagemodel.components[$parent.$index].id = component.id">{{component.name}}</a></li>
+        <li ng-repeat="(id, component) in widgets"><a ng-click="pagemodel.components[$parent.$index].name = component.name; pagemodel.components[$parent.$index].id = id">{{component.name}}</a></li>
       </ul>
       <span class="input-group-btn">
         <button class="btn btn-warning" ng-click="edit = !edit"><i class="fa fa-pencil"></i> Settings</button>
@@ -80,15 +80,15 @@
       <fieldset>
         <legend>Widget settings</legend>
         <blockquote>If your widget has options, you can set them here</blockquote>
-        <fieldset ng-if="widgets[component.name].options !== null">
+        <fieldset ng-if="widgets[component.id].datahandler.options !== null">
           <legend>Globals</legend>
-          <div class="form-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
+          <div class="form-group" ng-repeat="(key, entry) in widgets[component.id].datahandler.options" ng-if="entry.global">
             <label class="col-md-2 control-label">{{key}}</label>
             <div class="col-md-8">
               <input type="text" class="form-control input-md" ng-model="component.globals[key]" />
             </div>
           </div>
-          <div ng-repeat="bundle in widgets[component.name].options.components">
+          <div ng-repeat="bundle in widgets[component.id].datahandler.options.components">
             <div class="form-group" ng-repeat="(key, value) in bundle.globals" ng-if="value.substr(0,1) === ':'">
               <label class="col-md-2 control-label">{{value.substr(1)}}</label>  
               <div class="col-md-8">
