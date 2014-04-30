@@ -121,15 +121,21 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
 .controller("ReferenceContentController", function ($scope) {
   $scope.$parent.$watch('contenttypes', function (data) {
     for (var i = $scope.contenttypes.length - 1; i >= 0; i--) {
-      if($scope.contenttypes[i].name === $scope.widget.handleroptions.referencingContentType) {
-        $scope.referencing = $scope.contenttypes[i];
+      if($scope.contenttypes[i].name === $scope.widget.handleroptions.referencedContentType) {
+        $scope.referenced = $scope.contenttypes[i];
       }
     }
   }, true);
 
-  $scope.$watch('referencing', function() {
-    if($scope.referencing !== undefined && $scope.referencing.name !== $scope.widget.handleroptions.contentType) {
-      $scope.widget.handleroptions.referencingContentType = $scope.referencing.name;
+  $scope.$watch('contenttype', function() {
+    if($scope.contenttype !== undefined && $scope.contenttype.name !== $scope.widget.handleroptions.contentType) {
+      $scope.widget.handleroptions.contentType = $scope.contenttype.name;
+    }
+  });
+  
+  $scope.$watch('referenced', function() {
+    if($scope.referenced !== undefined && $scope.referenced.name !== $scope.widget.handleroptions.referencedContentType) {
+      $scope.widget.handleroptions.referencedContentType = $scope.referenced.name;
     }
   });
 })
