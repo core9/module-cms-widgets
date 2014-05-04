@@ -132,7 +132,7 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
       $scope.widget.handleroptions.contentType = $scope.contenttype.name;
     }
   });
-  
+
   $scope.$watch('referenced', function() {
     if($scope.referenced !== undefined && $scope.referenced.name !== $scope.widget.handleroptions.referencedContentType) {
       $scope.widget.handleroptions.referencedContentType = $scope.referenced.name;
