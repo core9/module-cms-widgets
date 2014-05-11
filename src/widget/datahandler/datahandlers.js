@@ -106,6 +106,9 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
       for (var i = data.length - 1; i >= 0; i--) {
         if(data[i].name === $scope.widget.handleroptions.contentType) {
           $scope.contenttype = data[i];
+          if($scope.contenttype.schema.properties[$scope.widget.handleroptions.field] === undefined) {
+            $scope.manual = true;
+          }
         }
       }
     }
