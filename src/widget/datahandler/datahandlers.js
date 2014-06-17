@@ -114,6 +114,14 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
     }
   });
 
+  $scope.addCustomVariable = function() {
+    if($scope.widget.handleroptions.customVariables === undefined) {
+      $scope.widget.handleroptions.customVariables = [];
+    }
+    $scope.widget.handleroptions.customVariables.push({key: $scope.newCustomVariableName, manual: false});
+    $scope.newCustomVariableName = "";
+  };
+
   $scope.$watch('contenttype', function() {
     if($scope.contenttype !== undefined && $scope.contenttype.name !== $scope.widget.handleroptions.contentType) {
       $scope.widget.handleroptions.contentType = $scope.contenttype.name;
@@ -129,6 +137,15 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
       }
     }
   }, true);
+
+  $scope.addCustomVariable = function() {
+    if($scope.widget.handleroptions.customVariables === undefined) {
+      $scope.widget.handleroptions.customVariables = [];
+    }
+    $scope.widget.handleroptions.customVariables.push({key: $scope.newCustomVariableName, manual: false});
+    $scope.newCustomVariableName = "";
+  };
+
 
   $scope.$watch('contenttype', function() {
     if($scope.contenttype !== undefined && $scope.contenttype.name !== $scope.widget.handleroptions.contentType) {

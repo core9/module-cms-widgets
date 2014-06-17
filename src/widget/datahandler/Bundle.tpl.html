@@ -19,7 +19,7 @@
 
       <div class="col-md-8 col-md-offset-2 input-group" ng-if="edit">
         <fieldset>
-          <legend>Widget settings</legend>
+          <legend>Widget settings ({{widgets[component.id].name}})</legend>
           <blockquote>If your widget has options, you can set them here</blockquote>
           <div class="row">
             <label class="col-md-3 control-label">Name</label>
@@ -29,9 +29,9 @@
               </div>
             </div>
           </div>
-          <fieldset ng-if="widgets[component.name].options !== null">
+          <fieldset ng-if="widgets[component.id].options !== null">
             <legend>Globals</legend>
-            <div class="form-group" ng-repeat="(key, entry) in widgets[component.name].options" ng-if="entry.global">
+            <div class="form-group" ng-repeat="(key, entry) in widgets[component.id].datahandler.options" ng-if="entry.global">
               <label class="col-md-2 control-label">{{key}}</label>
               <div class="col-md-8">
                 <input type="text" class="form-control input-md" ng-model="component.globals[key]" />

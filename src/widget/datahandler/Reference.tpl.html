@@ -61,5 +61,40 @@
         </div>
       </div>
     </fieldset>
+    <fieldset>
+    <legend>Custom field mappings</legend>
+    <p class="lead">Enter your custom field mappings. These mappings are available as variables in the request. This means you can use them across widgets.</p>
+    <div class="form-group row">
+      <label class="col-md-2 control-label">Fields</label>
+      <div class="col-md-8">
+        <table class="table table-striped">
+          <tr>
+            <th class="col-md-5">Variable name</th>
+            <th class="col-md-6">Variable value</th>
+            <th class="col-md-1">Actions</th>
+          </tr>
+          <tr ng-repeat="variable in widget.handleroptions.customVariables">
+            <td>
+              <input type="text" ng-model="variable.key" class="form-control" />
+            </td>
+            <td>
+              <div class="input-group">
+                <span class="input-group-addon"><input type="checkbox" ng-model="variable.manual" /> Manual</span>
+                <select ng-if="!variable.manual" ng-options="key as key for (key,field) in contenttype.schema.properties" ng-model="variable.value" class="form-control">
+                  <option value="">Database ID</option>
+                </select>
+                <input ng-if="variable.manual" type="text" ng-model="variable" class="form-control" />
+              </div>
+            </td>
+            <th><button class="btn btn-danger" ng-click="widget.handleroptions.customVariables.splice($index, 1)"><i class="fa fa-trash-o"></i></button></th>
+          </tr>
+          <tr>
+            <td><input type="text" class="form-control" ng-model="newCustomVariableName" /></td>
+            <td><button class="btn btn-success" ng-click="addCustomVariable()">Add custom variable</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </fieldset>
   </div>
 </div>
