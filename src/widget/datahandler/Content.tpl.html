@@ -14,30 +14,79 @@
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-2 control-label">Field</label>
-      <div class="col-md-8">
-        <div class="input-group">
-          <span class="input-group-addon"><input type="checkbox" ng-model="manual" /> Manual</span>
-          <select ng-if="!manual" ng-options="key as key for (key,field) in contenttype.schema.properties" ng-model="widget.handleroptions.fieldName" class="form-control input-md">
-            <option value="">Database ID</option>
-          </select>
-          <input type="text" ng-if="manual" class="form-control" ng-model="widget.handleroptions.fieldName" />
-        </div>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-md-2 control-label">Value</label>
-      <div class="col-md-8">
-        <div class="input-group">
-          <span class="input-group-addon"><input type="checkbox" ng-model="widget.handleroptions.id.global" /> Global</span>
-          <input type="text" ng-disabled="widget.handleroptions.id.global" class="form-control" ng-model="widget.handleroptions.id.value" />
-        </div>
-      </div>
-    </div>
-    <div class="form-group row">
       <label class="col-md-2 control-label">Quantity</label>
       <div class="col-md-8">
         <input type="checkbox" ng-model="widget.handleroptions.multipleResults" /> Allow multiple results
+      </div>
+    </div>
+    <div class="form-group row" ng-if="widget.handleroptions.multipleResults">
+      <div ng-if="widget.handleroptions.pager !== undefined">
+        <label class="col-md-2 control-label">Results per page</label>
+        <div class="col-md-8">
+          <input type="number" ng-model="widget.handleroptions.pager.resultsPerPage" class="form-control input-md"/>
+          <span class="help">The number of items, or 0 for all.</span>
+        </div>
+      </div>
+      <div ng-if="widget.handleroptions.pager === undefined">
+        <label class="col-md-2 control-label">Results per page</label>
+        <div class="col-md-8">
+          <button class="btn btn-success" ng-click="widget.handleroptions.pager = {}">Add pager</button>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Content query</legend>
+    <p class="lead">Enter your content query.</p>
+    <div class="form-group row">
+      <label class="col-md-2 control-label">Fields</label>
+      <div class="col-md-8">
+        <table class="table table-striped">
+          <tr>
+            <th class="col-md-5">Field name</th>
+            <th class="col-md-6">Field value</th>
+            <th class="col-md-1">Actions</th>
+          </tr>
+          <tr ng-repeat="variable in widget.handleroptions.fields">
+            <td>
+              <input type="text" ng-model="variable.key" class="form-control" />
+            </td>
+            <td>
+              <div ng-if="isDataType(variable.value.value, 'number')">
+                <div class="input-group">
+                  <span class="input-group-addon"><input type="checkbox" ng-model="variable.value.global" /> Global</span>
+                  <input type="number" ng-disabled="variable.value.global" class="form-control" ng-model="variable.value.value" />
+                </div>
+              </div>
+              <div ng-if="isDataType(variable.value.value, 'string')">
+                <div class="input-group">
+                  <span class="input-group-addon"><input type="checkbox" ng-model="variable.value.global" /> Global</span>
+                  <input type="text" ng-disabled="variable.value.global" class="form-control" ng-model="variable.value.value" />
+                </div>
+              </div>
+              <div ng-if="isDataType(variable.value.value, 'boolean')">
+                <div class="input-group">
+                  <span class="input-group-addon"><input type="checkbox" ng-model="variable.value.global" /> Global</span>
+                  <div class="form-control">
+                    <input type="checkbox" ng-disabled="variable.value.global" ng-model="variable.value.value" />
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td><button class="btn btn-danger" ng-click="widget.handleroptions.fields.splice($index, 1)"><i class="fa fa-trash-o"></i></button></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="form-control" ng-model="newFieldName" /></td>
+            <td>
+              <select ng-model="newFieldType" class="form-control">
+                <option value="string">Text</option>  
+                <option value="number">Number</option>
+                <option value="boolean">True/false</option>
+              </select>
+            </td>
+            <td><button class="btn btn-success" ng-click="addField(newFieldType, newFieldName)">Add new field</button></td>
+          </tr>
+        </table>
       </div>
     </div>
   </fieldset>

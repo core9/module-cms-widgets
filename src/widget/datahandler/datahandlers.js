@@ -101,6 +101,9 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
 })
 
 .controller("WidgetContentController", function ($scope, ConfigFactory) {
+  $scope.newFieldName = "";
+  $scope.newFieldValue = "";
+
   $scope.contenttypes = ConfigFactory.query({configtype: 'content'}, function (data) {
     if($scope.widget.handleroptions.contentType !== undefined) {
       for (var i = data.length - 1; i >= 0; i--) {
@@ -120,6 +123,24 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
     }
     $scope.widget.handleroptions.customVariables.push({key: $scope.newCustomVariableName, manual: false});
     $scope.newCustomVariableName = "";
+  };
+
+  $scope.addField = function (newFieldType, newFieldName) {
+    if($scope.widget.handleroptions.fields === undefined) {
+      $scope.widget.handleroptions.fields = [];
+    }
+    var value = "";
+    if(newFieldType == 'number') {
+      value = 0;
+    } else if(newFieldType == 'boolean') {
+      value = false;
+    }
+    $scope.widget.handleroptions.fields.push({key: newFieldName, value: {global: true, value: value}});
+    newFieldName = "";
+  };
+
+  $scope.isDataType = function(variable, type) {
+    return typeof variable == type;
   };
 
   $scope.$watch('contenttype', function() {
