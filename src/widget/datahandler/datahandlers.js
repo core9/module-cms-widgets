@@ -150,40 +150,8 @@ angular.module( 'core9Dashboard.widget.datahandlers', [
   });
 })
 
-.controller("ReferenceContentController", function ($scope) {
-  $scope.$parent.$watch('contenttypes', function (data) {
-    for (var i = $scope.contenttypes.length - 1; i >= 0; i--) {
-      if($scope.contenttypes[i].name === $scope.widget.handleroptions.referencedContentType) {
-        $scope.referenced = $scope.contenttypes[i];
-      }
-    }
-  }, true);
-
-  $scope.addCustomVariable = function() {
-    if($scope.widget.handleroptions.customVariables === undefined) {
-      $scope.widget.handleroptions.customVariables = [];
-    }
-    $scope.widget.handleroptions.customVariables.push({key: $scope.newCustomVariableName, manual: false});
-    $scope.newCustomVariableName = "";
-  };
-
-
-  $scope.$watch('contenttype', function() {
-    if($scope.contenttype !== undefined && $scope.contenttype.name !== $scope.widget.handleroptions.contentType) {
-      $scope.widget.handleroptions.contentType = $scope.contenttype.name;
-    }
-  });
-
-  $scope.$watch('referenced', function() {
-    if($scope.referenced !== undefined && $scope.referenced.name !== $scope.widget.handleroptions.referencedContentType) {
-      $scope.widget.handleroptions.referencedContentType = $scope.referenced.name;
-    }
-  });
-})
-
 .run(function (DataHandlers) {
   DataHandlers.registerTemplateOnHandler("Content", "widget/datahandler/Content.tpl.html");
   DataHandlers.registerTemplateOnHandler("Bundle", "widget/datahandler/Bundle.tpl.html");
-  DataHandlers.registerTemplateOnHandler("Reference", "widget/datahandler/Reference.tpl.html");
 })
 ;
