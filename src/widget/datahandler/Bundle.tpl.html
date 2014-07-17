@@ -37,7 +37,13 @@
                 <input type="text" class="form-control input-md" ng-model="component.globals[key]" />
               </div>
             </div>
-            <div ng-repeat="bundle in widgets[component.name].options.components">
+            <div class="form-group" ng-repeat="entry in widgets[component.id].datahandler.options.fields" ng-if="entry.value.global">
+              <label class="col-md-2 control-label">{{entry.key}}</label>
+              <div class="col-md-8">
+                <input type="text" class="form-control input-md" ng-model="component.globals[entry.key]" />
+              </div>
+            </div>
+            <div ng-repeat="bundle in widgets[component.name].datahandler.options.components">
               <div class="form-group" ng-repeat="(key, value) in bundle.globals" ng-if="value.substr(0,1) === ':'">
                 <label class="col-md-2 control-label">{{value.substr(1)}}</label>  
                 <div class="col-md-8">
